@@ -1,3 +1,19 @@
 .body {
     margin: 60px 10px
 }
+
+.listItem {
+    text-align: center;
+    background-color: #eaebd3;
+    width: 100%;
+    border: 1px solid rgb(153, 153, 180);
+    box-shadow: 1px 1px 3px rgb(2, 1, 22);
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 4px 0px;
+    transition: all 0.3s ease-out;
+}
+
+.addButton {
+    text-align: center;
+}

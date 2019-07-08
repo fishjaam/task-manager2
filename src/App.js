@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import TaskManager from './Containers/task-manager';
 import './App.css';
 
-function App() {
-  return (
-    <div>
-      <TaskManager/>
-    </div>
-  );
+class App extends Component {
+
+  render() {
+    return (
+      <div>
+        <TaskManager />
+      </div>
+    );
+  }
 }
 
 export default App;

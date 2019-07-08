@@ -1,34 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import styles from './item-list.module.css'
-import Item from '../Components/item';
+import Item from './item';
 
 class ItemList extends Component {
     state = {
-        tasks: null
-    }
-
-    taskChosen = () => {
-        console.log('a task was picked')
+        tasks: ["first task", "second task", "another"]
     }
 
     render() {
-        let tasks = ["some task", "second task", "another"];
-        //Use new task component here
-        tasks = tasks.map(task => {
+        const displayTasks = this.props.tasks.map(task => {
             return (
-                <a onClick={this.taskChosen} key={task}>
-                    <Item taskName={task}/>
-                </a>
+                <div key={task.id} className={styles.listItem}>
+                    <Item  
+                        taskName={task.title}
+                        taskID={task.id}/>
+                </div>
             )
         })
         return (
             <div className={styles.body}>
-                ITEM LIST
 
-                {tasks}
-
-                <div>
+                {displayTasks}
+                <div className={styles.addButton}>
                     <button> + </button>
                 </div>
             </div>
@@ -36,4 +31,11 @@ class ItemList extends Component {
     }
 }
 
-export default ItemList;
+const mapStateToProps = state => {
+    return {
+        tasks: state.tasks
+    }
+};
+
+
+export default connect(mapStateToProps)(ItemList);

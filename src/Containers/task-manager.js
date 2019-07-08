@@ -11,8 +11,8 @@ class TaskManager extends Component {
         <React.Fragment>
             <Header />
             <div className={styles.row}>
-              <div className={styles.column}><ItemList/></div>
-              <div className={styles.column}><ItemDetail/></div>
+              <div className={styles.column1}><ItemList/></div>
+              <div className={styles.column2}><ItemDetail/></div>
             </div>
             
         </React.Fragment>
