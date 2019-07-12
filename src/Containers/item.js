@@ -22,4 +22,5 @@ const mapDispatchToProps = dispatch => {
         onChangeChosenTask: (id) => dispatch(taskActions.changeChosenTask(id))
     }
 };
+
 export default connect(null, mapDispatchToProps)(Item);

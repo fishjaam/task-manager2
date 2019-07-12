@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 import styles from './item-list.module.css'
 import Item from './item';
@@ -7,6 +8,10 @@ import Item from './item';
 class ItemList extends Component {
     state = {
         tasks: ["first task", "second task", "another"]
+    }
+
+    addNewTask = () => {
+        this.props.history.push('new-task');
     }
 
     render() {
@@ -24,7 +29,7 @@ class ItemList extends Component {
 
                 {displayTasks}
                 <div className={styles.addButton}>
-                    <button> + </button>
+                    <button onClick={this.addNewTask}> + </button>
                 </div>
             </div>
         )
@@ -38,4 +43,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps)(ItemList);
+export default withRouter(connect(mapStateToProps)(ItemList));
