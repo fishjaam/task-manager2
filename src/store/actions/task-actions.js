@@ -13,3 +13,10 @@ export const changeChosenTask = id => {
         id: id
     }
 }
+
+export const setInitializeTask = value => {
+    return {
+        type: 'SET_INITIALIZETASK',
+        value: value
+    }
+}

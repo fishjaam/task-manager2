@@ -16,7 +16,8 @@ const initialState = {
         
         }
     ],
-    chosenTaskID: 1
+    chosenTaskID: 1,
+    initializeTask: true
 }
 
 const taskReducer = ( state = initialState, action ) => {
@@ -25,7 +26,11 @@ const taskReducer = ( state = initialState, action ) => {
             let addedTasks = initialState.tasks.concat(action.task)
             return {...state, tasks: addedTasks};
         case 'TASK_CHOSEN':
-            return {...state, chosenTaskID: action.id}
+            //need to set initialize task to true as well since the new task needs
+            //to be loaded in item-detail.js to display
+            return {...state, chosenTaskID: action.id, initializeTask: true}
+        case 'SET_INITIALIZETASK':
+            return {...state, initializeTask: action.value}
     }
     return state;
 };

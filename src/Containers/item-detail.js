@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import styles from './item-detail.module.css'
 import Input from '../Components/input';
+import * as taskActions from '../store/actions/task-actions';
 
 
 class ItemDetail extends Component {
@@ -49,15 +50,10 @@ class ItemDetail extends Component {
             }
         },
         formIsValid: false,
-        loading: false,
-        initializing: true
+        loading: false
     }
 
     updateTask = (event, inputIdentifier) => {
-        const taskIdToUpdate = this.props.chosenTaskID
-        let taskToUpdate = this.props.tasks.filter(task => 
-            task.id === taskIdToUpdate).reduce(el => el)
-
         //Same code as inputChangedHandler() in add-task-page to update form - change to not duplicate
         const updatedForm = {
             ...this.state.form
@@ -75,7 +71,10 @@ class ItemDetail extends Component {
             formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
 
         }
-        this.setState({form: updatedForm, formIsValid: formIsValid, initializing: false});
+        this.setState({form: updatedForm, formIsValid: formIsValid});
+
+        //set initializing to false --- currently editing the displayed task
+        this.props.onSetInitializeTask(false)
     }
 
     checkValidity(value, rules) {
@@ -101,20 +100,6 @@ class ItemDetail extends Component {
         const taskID = this.props.chosenTaskID;
         const task = tasks.filter(task => task.id === taskID).reduce(el => el)
 
-        // return (
-        //     <div className={styles.body}>
-        //         <p>{task.title}</p>
-        //         <textarea 
-        //             value={task.description}
-        //             onChange={this.updateTask}></textarea>
-        //         <br></br>
-        //         <button>Complete</button>
-
-        //     </div>
-        // )
-
-
-
         const formElementsArray = [];
         for (let key in this.state.form) {
             formElementsArray.push({
@@ -123,7 +108,8 @@ class ItemDetail extends Component {
             });
         }
 
-        if(this.state.initializing) {
+        //recalculate input values to their unsaved value when initialize is set to true
+        if(this.props.initializeTask) {
             formElementsArray[0].config.value = task.title
             formElementsArray[1].config.value = task.description
             formElementsArray[2].config.value = task.dueDate
@@ -159,9 +145,16 @@ class ItemDetail extends Component {
 const mapStateToProps = state => {
     return {
         tasks: state.tasks,
-        chosenTaskID: state.chosenTaskID
+        chosenTaskID: state.chosenTaskID,
+        initializeTask: state.initializeTask
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSetInitializeTask: value => dispatch(taskActions.setInitializeTask(value))
     }
 };
 
 
-export default connect(mapStateToProps)(ItemDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemDetail);
