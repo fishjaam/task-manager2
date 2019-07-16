@@ -6,9 +6,9 @@ import styles from './add-task-page.module.css';
 import Input from '../Components/input';
 import * as taskActions from '../store/actions/task-actions';
 
-class ContactData extends Component {
+class addTask extends Component {
     state = {
-        orderForm: {
+        form: {
             title: {
                 elementType: 'input',
                 elementConfig: {
@@ -72,31 +72,34 @@ class ContactData extends Component {
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
-        const updatedOrderForm = {
-            ...this.state.orderForm
+        const updatedForm = {
+            ...this.state.form
         };
         const updatedFormElement = { 
-            ...updatedOrderForm[inputIdentifier]
+            ...updatedForm[inputIdentifier]
         };
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
-        updatedOrderForm[inputIdentifier] = updatedFormElement;
+        updatedForm[inputIdentifier] = updatedFormElement;
         
         let formIsValid = true;
-        for (let inputIdentifier in updatedOrderForm) {
-            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+        for (let inputIdentifier in updatedForm) {
+            formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
+            console.log('updateing')
+
         }
-        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
+        this.setState({form: updatedForm, formIsValid: formIsValid});
     }
 
     submitTask = ( event ) => {
         event.preventDefault();
 
         let task = {
-            title: this.state.orderForm.title.value,
-            description: this.state.orderForm.description.value,
-            dueDate: this.state.orderForm.dueDate.value
+            title: this.state.form.title.value,
+            description: this.state.form.description.value,
+            dueDate: this.state.form.dueDate.value,
+            id: 5 //TODO get next available ID
         }
         console.log(task)
         this.props.onAddTask(task)
@@ -104,10 +107,10 @@ class ContactData extends Component {
 
     render () {
         const formElementsArray = [];
-        for (let key in this.state.orderForm) {
+        for (let key in this.state.form) {
             formElementsArray.push({
                 id: key,
-                config: this.state.orderForm[key]
+                config: this.state.form[key]
             });
         }
         let form = (
@@ -128,7 +131,7 @@ class ContactData extends Component {
         );
 
         return (
-            <div className={styles.ContactData}>
+            <div className={styles.addTask}>
                 <Header />
                 <h4>New Task</h4>
                 {form}
@@ -143,4 +146,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(ContactData);
+export default connect(null, mapDispatchToProps)(addTask);
