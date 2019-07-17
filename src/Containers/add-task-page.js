@@ -126,7 +126,7 @@ class addTask extends Component {
                         touched={formElement.config.touched}
                         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
                 ))}
-                <button>ORDER</button>
+                <button>Add Task</button>
             </form>
         );
 

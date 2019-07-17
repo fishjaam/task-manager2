@@ -95,6 +95,13 @@ class ItemDetail extends Component {
         return isValid;
     }
 
+    saveChanges = () => {
+        const inputValues = {title: this.state.form.title.value,
+                            description: this.state.form.description.value,
+                            dueDate: this.state.form.dueDate.value}
+        this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues)
+    }
+
     render() {
         const tasks = this.props.tasks;
         const taskID = this.props.chosenTaskID;
@@ -136,7 +143,7 @@ class ItemDetail extends Component {
             <div className={styles.body}>
                 {form}
                 <hr></hr>
-                <button>Save Changes</button>
+                <button onClick={this.saveChanges}>Save Changes</button>
             </div>
         );
     }
@@ -152,7 +159,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSetInitializeTask: value => dispatch(taskActions.setInitializeTask(value))
+        onSetInitializeTask: value => dispatch(taskActions.setInitializeTask(value)),
+        onSaveChangesToTask: (taskID, inputValues) => dispatch(taskActions.saveChangesToTask(taskID, inputValues))
     }
 };
 

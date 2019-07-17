@@ -20,3 +20,11 @@ export const setInitializeTask = value => {
         value: value
     }
 }
+
+export const saveChangesToTask = (taskID, inputValues) => {
+    return {
+        type: 'SAVE_CHANGES_TO_TASK',
+        taskID: taskID,
+        inputValues: inputValues
+    }
+}
