@@ -4,6 +4,8 @@ import {withRouter} from 'react-router-dom';
 
 import styles from './item-list.module.css'
 import Item from './item';
+import * as taskActions from '../store/actions/task-actions';
+
 
 class ItemList extends Component {
     state = {
@@ -17,7 +19,10 @@ class ItemList extends Component {
     render() {
         const displayTasks = this.props.tasks.map(task => {
             return (
-                <div key={task.id} className={styles.listItem}>
+                <div 
+                    key={task.id} 
+                    className={styles.listItem}
+                    onClick={() => this.props.onChangeChosenTask(task.id)}>
                     <Item  
                         taskName={task.title}
                         taskID={task.id}/>
@@ -42,5 +47,9 @@ const mapStateToProps = state => {
     }
 };
 
-
-export default withRouter(connect(mapStateToProps)(ItemList));
+const mapDispatchToProps = dispatch => {
+    return {
+        onChangeChosenTask: (id) => dispatch(taskActions.changeChosenTask(id))
+    }
+};
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ItemList));
