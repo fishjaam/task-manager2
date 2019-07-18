@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import styles from './item-detail.module.css'
+import * as taskActions from '../store/actions/auth-actions';
 import Input from '../Components/input';
-import * as taskActions from '../store/actions/task-actions';
+import Header from '../Components/header';
+import styles from './register.module.css';
 
 
-class ItemDetail extends Component {
+export class Register extends Component {
     state = {
-        form: {
-            title: {
+        inputs: {
+            email: {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Title'
+                    placeholder: 'email'
                 },
                 value: '',
                 validation: {
@@ -22,24 +23,11 @@ class ItemDetail extends Component {
                 valid: false,
                 touched: false
             },
-            description: {
-                elementType: 'textarea',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Description'
-                },
-                value: '',
-                validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false
-            },
-            dueDate: {
+            password: {
                 elementType: 'input',
                 elementConfig: {
-                    type: 'date'
-                    // placeholder: 
+                    type: 'password',
+                    placeholder: 'password'
                 },
                 value: '',
                 validation: {
@@ -49,14 +37,12 @@ class ItemDetail extends Component {
                 touched: false
             }
         },
-        formIsValid: false,
-        loading: false
+        formIsValid: false
     }
 
-    updateTask = (event, inputIdentifier) => {
-        //Same code as inputChangedHandler() in add-task-page to update form - change to not duplicate
+    inputChangedHandler = (event, inputIdentifier) => {
         const updatedForm = {
-            ...this.state.form
+            ...this.state.inputs
         };
         const updatedFormElement = { 
             ...updatedForm[inputIdentifier]
@@ -69,12 +55,8 @@ class ItemDetail extends Component {
         let formIsValid = true;
         for (let inputIdentifier in updatedForm) {
             formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
-
         }
-        this.setState({form: updatedForm, formIsValid: formIsValid});
-
-        //set initializing to false --- currently editing the displayed task
-        this.props.onSetInitializeTask(false)
+        this.setState({inputs: updatedForm, formIsValid: formIsValid});
     }
 
     checkValidity(value, rules) {
@@ -96,31 +78,19 @@ class ItemDetail extends Component {
     }
 
     saveChanges = () => {
-        const inputValues = {title: this.state.form.title.value,
-                            description: this.state.form.description.value,
-                            dueDate: this.state.form.dueDate.value}
-        this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues)
+        this.props.onRegisterAccount(this.state.inputs.email.value,
+            this.state.inputs.email.password)
     }
 
     render() {
-        const tasks = this.props.tasks;
-        const taskID = this.props.chosenTaskID;
-        const task = tasks.filter(task => task.id === taskID).reduce(el => el)
-
         const formElementsArray = [];
-        for (let key in this.state.form) {
+        for (let key in this.state.inputs) {
             formElementsArray.push({
                 id: key,
-                config: this.state.form[key]
+                config: this.state.inputs[key]
             });
         }
 
-        //recalculate input values to their unsaved value when initialize is set to true
-        if(this.props.initializeTask) {
-            formElementsArray[0].config.value = task.title
-            formElementsArray[1].config.value = task.description
-            formElementsArray[2].config.value = task.dueDate
-        }
 
         console.log(formElementsArray)
         let form = (
@@ -134,35 +104,26 @@ class ItemDetail extends Component {
                         invalid={!formElement.config.valid}
                         shouldValidate={formElement.config.validation}
                         touched={formElement.config.touched}
-                        changed={(event) => this.updateTask(event, formElement.id)} />
+                        changed={(event) => this.inputChangedHandler(event, formElement.id)} />
                 ))}
             </form>
         );
 
         return (
             <div className={styles.body}>
+                <Header />
+                <h3 style={{textAlign: 'center'}}>Register an Account:</h3>
                 {form}
-                <hr></hr>
                 <button onClick={this.saveChanges}>Save Changes</button>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        tasks: state.tasks.tasks,
-        chosenTaskID: state.tasks.chosenTaskID,
-        initializeTask: state.tasks.initializeTask
-    }
-};
-
 const mapDispatchToProps = dispatch => {
     return {
-        onSetInitializeTask: value => dispatch(taskActions.setInitializeTask(value)),
-        onSaveChangesToTask: (taskID, inputValues) => dispatch(taskActions.saveChangesToTask(taskID, inputValues))
+        onRegisterAccount: (email, password) => dispatch(taskActions.registerAccount(email, password))
     }
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(ItemDetail);
+export default connect(null, mapDispatchToProps)(Register);

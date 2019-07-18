@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import TaskManager from './Containers/task-manager';
 import AddTask from './Containers/add-task-page';
+import Register from './Containers/register';
 import './App.css';
 
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path="/new-task" component={AddTask}/>
+        <Route path="/register" component={Register}/>
         <Route path="/" component={TaskManager}/>
       </Switch>
     )

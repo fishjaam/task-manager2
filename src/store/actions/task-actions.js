@@ -1,5 +1,3 @@
-
-
 export const addTask = task => {
     return {
         type: 'ADD_TASK',
@@ -28,3 +26,4 @@ export const saveChangesToTask = (taskID, inputValues) => {
         inputValues: inputValues
     }
 }
+

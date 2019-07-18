@@ -7,10 +7,17 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
-import TaskReducer from './store/reducers/task-reducer';
+import taskReducer from './store/reducers/task-reducer';
+import authReducer from './store/reducers/auth-reducer';
 
-const store = createStore(TaskReducer, 
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const rootReducer = combineReducers({
+    tasks: taskReducer,
+    auth: authReducer
+});
+
+const store = createStore(rootReducer, composeEnhancers())
 
 const app = (
     <Provider store={store}>
