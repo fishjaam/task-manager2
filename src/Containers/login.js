@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import * as taskActions from '../store/actions/auth-actions';
 import Input from '../Components/input';
 import Header from '../Components/header';
-import styles from './register.module.css';
+import styles from './login.module.css';
 
 
-export class Register extends Component {
+export class Login extends Component {
     state = {
         inputs: {
             email: {
@@ -78,7 +78,7 @@ export class Register extends Component {
     }
 
     saveChanges = () => {
-        this.props.onRegisterAccount(this.state.inputs.email.value,
+        this.props.onLogin(this.state.inputs.email.value,
             this.state.inputs.password.value)
     }
 
@@ -109,7 +109,7 @@ export class Register extends Component {
         return (
             <div className={styles.body}>
                 <Header />
-                <h3 style={{textAlign: 'center'}}>Register an Account:</h3>
+                <h3 style={{textAlign: 'center'}}>Login:</h3>
                 {form}
                 <button onClick={this.saveChanges}>Save Changes</button>
             </div>
@@ -119,8 +119,8 @@ export class Register extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onRegisterAccount: (email, password) => dispatch(taskActions.registerAccount(email, password))
+        onLogin: (email, password) => dispatch(taskActions.login(email, password))
     }
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(Login);

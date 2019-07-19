@@ -40,8 +40,9 @@ const taskReducer = ( state = initialState, action ) => {
             //taskID indexed at 1 so must subtract one to update the correct task
             updatedTasks[action.taskID - 1] = changedTask
             return {...state, tasks: updatedTasks}
+        default:
+            return state;
     }
-    return state;
 };
 
 export default taskReducer;
