@@ -1,7 +1,8 @@
-export const addTask = task => {
+export const addTask = (task, userID) => {
     return {
         type: 'ADD_TASK',
-        task: task
+        task: task,
+        userID: userID
     }
 }
 
@@ -19,11 +20,12 @@ export const setInitializeTask = value => {
     }
 }
 
-export const saveChangesToTask = (taskID, inputValues) => {
+export const saveChangesToTask = (taskID, inputValues, userID) => {
     return {
         type: 'SAVE_CHANGES_TO_TASK',
         taskID: taskID,
-        inputValues: inputValues
+        inputValues: inputValues,
+        userID: userID
     }
 }
 

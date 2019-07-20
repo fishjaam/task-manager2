@@ -1,9 +1,10 @@
 import axios from 'axios'
 
-const signUpSuccess = token => {
+const signUpSuccess = (token, userID) => {
     return {
         type: 'SIGNUP_SUCCESS',
-        idToken: token
+        idToken: token,
+        userID: userID
     }
 }
 
@@ -22,11 +23,13 @@ export const registerAccount = (email, password) => {
             returnSecureToken: true
         }
         let token = null
+        let userID = null
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]'
         axios.post(url, registrationData)
             .then(response => {
                 token = response.data.idToken
-                dispatch(signUpSuccess(token))                
+                userID = response.data.localId
+                dispatch(signUpSuccess(token, userID))                
             })
             .catch(error => {
                 dispatch(signUpFailure(error.response.data.error.message))                
@@ -34,10 +37,11 @@ export const registerAccount = (email, password) => {
     }
 }
 
-const loginSuccess = token => {
+const loginSuccess = (token, userID) => {
     return {
         type: 'LOGIN_SUCCESS',
-        idToken: token
+        idToken: token,
+        userID: userID
     }
 }
 
@@ -56,11 +60,13 @@ export const login = (email, password) => {
             returnSecureToken: true
         }
         let token = null
+        let userID = null
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]'
         axios.post(url, loginData)
             .then(response => {
                 token = response.data.idToken
-                dispatch(loginSuccess(token))                
+                userID = response.data.localId
+                dispatch(loginSuccess(token, userID))                
             })
             .catch(error => {
                 dispatch(loginFailure(error.response.data.error.message))                

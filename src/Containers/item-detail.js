@@ -74,7 +74,9 @@ class ItemDetail extends Component {
         this.setState({form: updatedForm, formIsValid: formIsValid});
 
         //set initializing to false --- currently editing the displayed task
-        this.props.onSetInitializeTask(false)
+        if(this.props.initializeTask){
+            this.props.onSetInitializeTask(false)
+        }
     }
 
     checkValidity(value, rules) {
@@ -99,7 +101,7 @@ class ItemDetail extends Component {
         const inputValues = {title: this.state.form.title.value,
                             description: this.state.form.description.value,
                             dueDate: this.state.form.dueDate.value}
-        this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues)
+        this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues, this.props.userID)
     }
 
     render() {
@@ -115,14 +117,13 @@ class ItemDetail extends Component {
             });
         }
 
-        //recalculate input values to their unsaved value when initialize is set to true
+        //recalculate input values to their saved value when initialize is set to true
         if(this.props.initializeTask) {
             formElementsArray[0].config.value = task.title
             formElementsArray[1].config.value = task.description
             formElementsArray[2].config.value = task.dueDate
         }
 
-        console.log(formElementsArray)
         let form = (
             <form onSubmit={this.submitTask}>
                 {formElementsArray.map(formElement => (
@@ -143,7 +144,9 @@ class ItemDetail extends Component {
             <div className={styles.body}>
                 {form}
                 <hr></hr>
-                <button onClick={this.saveChanges}>Save Changes</button>
+                <button 
+                    onClick={this.saveChanges}
+                    disabled={!this.props.authenticated}>Save Changes</button>
             </div>
         );
     }
@@ -153,14 +156,16 @@ const mapStateToProps = state => {
     return {
         tasks: state.tasks.tasks,
         chosenTaskID: state.tasks.chosenTaskID,
-        initializeTask: state.tasks.initializeTask
+        initializeTask: state.tasks.initializeTask,
+        authenticated: state.auth.authenticated,
+        userID: state.auth.userID
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onSetInitializeTask: value => dispatch(taskActions.setInitializeTask(value)),
-        onSaveChangesToTask: (taskID, inputValues) => dispatch(taskActions.saveChangesToTask(taskID, inputValues))
+        onSaveChangesToTask: (taskID, inputValues, userID) => dispatch(taskActions.saveChangesToTask(taskID, inputValues, userID))
     }
 };
 

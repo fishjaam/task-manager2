@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 
 const initialState = {
@@ -20,10 +21,20 @@ const initialState = {
     initializeTask: true
 }
 
+const postTasks = (tasks, userID) => {
+    let url = `firebaseURL/tasks/${userID}.json`
+    axios.put(url, tasks)
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+}
+
 const taskReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case 'ADD_TASK':
             let addedTasks = state.tasks.concat(action.task)
+
+            //store tasks on firebase
+            postTasks(addedTasks, action.userID)
             return {...state, tasks: addedTasks};
         case 'TASK_CHOSEN':
             //need to set initialize task to true as well since the new task needs
@@ -39,6 +50,9 @@ const taskReducer = ( state = initialState, action ) => {
             let updatedTasks = state.tasks
             //taskID indexed at 1 so must subtract one to update the correct task
             updatedTasks[action.taskID - 1] = changedTask
+
+            //store tasks on firebase
+            postTasks(updatedTasks, action.userID)
             return {...state, tasks: updatedTasks}
         default:
             return state;

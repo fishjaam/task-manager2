@@ -102,7 +102,7 @@ class addTask extends Component {
             id: 5 //TODO get next available ID
         }
         console.log(task)
-        this.props.onAddTask(task)
+        this.props.onAddTask(task, this.props.userID)
     }
 
     render () {
@@ -140,10 +140,16 @@ class addTask extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onAddTask: (task) => dispatch(taskActions.addTask(task))
+        userID: state.auth.userID
     }
 };
 
-export default connect(null, mapDispatchToProps)(addTask);
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddTask: (task, userID) => dispatch(taskActions.addTask(task, userID))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(addTask);
