@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const signUpSuccess = (token, userID) => {
     return {
@@ -38,10 +38,27 @@ export const registerAccount = (email, password) => {
 }
 
 const loginSuccess = (token, userID) => {
-    return {
-        type: 'LOGIN_SUCCESS',
-        idToken: token,
-        userID: userID
+    return dispatch => {
+        //only get tasks associated with user who logged on
+        const params = '?auth=' + token + '&orderBy="$key"&equalTo="' + userID + '"';
+        const url = 'https://react-task-manager-7b88e.firebaseio.com/tasks.json' + params;
+        axios.get(url)
+            .then(response => {
+                //this action is handled in the task reducer since it sets tasks upon user login
+                dispatch({
+                    type: 'FETCH_TASKS_ON_LOGON',
+                    tasks: response.data[userID]
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            
+        dispatch({
+            type: 'LOGIN_SUCCESS',
+            idToken: token,
+            userID: userID
+        })
     }
 }
 
@@ -66,10 +83,16 @@ export const login = (email, password) => {
             .then(response => {
                 token = response.data.idToken
                 userID = response.data.localId
-                dispatch(loginSuccess(token, userID))                
+                dispatch(loginSuccess(token, userID))
             })
             .catch(error => {
                 dispatch(loginFailure(error.response.data.error.message))                
             })
+    }
+}
+
+export const logout = () => {
+    return {
+        type: 'LOGOUT'
     }
 }

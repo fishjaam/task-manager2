@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as taskActions from '../store/actions/auth-actions';
 import Input from '../Components/input';
-import Header from '../Components/header';
+import Header from './header';
 import styles from './register.module.css';
 
 
@@ -38,6 +38,12 @@ export class Register extends Component {
             }
         },
         formIsValid: false
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.authenticated !== prevProps.authenticated) {
+            this.props.history.push('/')
+        }
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -77,7 +83,7 @@ export class Register extends Component {
         return isValid;
     }
 
-    saveChanges = () => {
+    register = () => {
         this.props.onRegisterAccount(this.state.inputs.email.value,
             this.state.inputs.password.value)
     }
@@ -111,11 +117,17 @@ export class Register extends Component {
                 <Header />
                 <h3 style={{textAlign: 'center'}}>Register an Account:</h3>
                 {form}
-                <button onClick={this.saveChanges}>Save Changes</button>
+                <button onClick={this.register}>Register</button>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        authenticated: state.auth.authenticated
+    }
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -123,4 +135,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

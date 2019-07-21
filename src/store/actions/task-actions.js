@@ -1,8 +1,9 @@
-export const addTask = (task, userID) => {
+export const addTask = (task, userID, token) => {
     return {
         type: 'ADD_TASK',
         task: task,
-        userID: userID
+        userID: userID,
+        token: token
     }
 }
 
@@ -20,12 +21,19 @@ export const setInitializeTask = value => {
     }
 }
 
-export const saveChangesToTask = (taskID, inputValues, userID) => {
+export const saveChangesToTask = (taskID, inputValues, userID, token) => {
     return {
         type: 'SAVE_CHANGES_TO_TASK',
         taskID: taskID,
         inputValues: inputValues,
-        userID: userID
+        userID: userID,
+        token: token
+    }
+}
+
+export const logout = () => {
+    return {
+        type: 'LOGOUT'
     }
 }
 

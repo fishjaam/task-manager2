@@ -5,24 +5,18 @@ const initialState = {
     tasks: [
         {
             id: 1,
-            title: 'first',
-            description: 'first task description',
+            title: 'First Task',
+            description: 'edit the description',
             dueDate: new Date()
-        },
-        {
-            id: 2,
-            title: 'second',
-            description: 'second task description',
-            dueDate: new Date()
-        
         }
     ],
     chosenTaskID: 1,
     initializeTask: true
 }
 
-const postTasks = (tasks, userID) => {
-    let url = `firebaseURL/tasks/${userID}.json`
+const postTasks = (tasks, userID, token) => {
+    const authToken = '?auth=' + token
+    const url = `firebaseURL/tasks/${userID}.json` + authToken
     axios.put(url, tasks)
         .then(response => console.log(response))
         .catch(err => console.log(err))
@@ -32,9 +26,8 @@ const taskReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case 'ADD_TASK':
             let addedTasks = state.tasks.concat(action.task)
-
             //store tasks on firebase
-            postTasks(addedTasks, action.userID)
+            postTasks(addedTasks, action.userID, action.token)
             return {...state, tasks: addedTasks};
         case 'TASK_CHOSEN':
             //need to set initialize task to true as well since the new task needs
@@ -52,8 +45,13 @@ const taskReducer = ( state = initialState, action ) => {
             updatedTasks[action.taskID - 1] = changedTask
 
             //store tasks on firebase
-            postTasks(updatedTasks, action.userID)
+            postTasks(updatedTasks, action.userID, action.token)
             return {...state, tasks: updatedTasks}
+        case 'FETCH_TASKS_ON_LOGON': //action from auth-actions - set tasks upon user login
+            const fetchedTasks = action.tasks
+            return {...state, tasks: fetchedTasks}
+        case 'LOGOUT':
+            return initialState
         default:
             return state;
     }

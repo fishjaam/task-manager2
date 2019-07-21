@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as taskActions from '../store/actions/auth-actions';
+import * as authActions from '../store/actions/auth-actions';
 import Input from '../Components/input';
-import Header from '../Components/header';
+import Header from './header';
 import styles from './login.module.css';
 
 
@@ -38,6 +38,12 @@ export class Login extends Component {
             }
         },
         formIsValid: false
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.authenticated !== prevProps.authenticated) {
+            this.props.history.push('/')
+        }
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -77,9 +83,9 @@ export class Login extends Component {
         return isValid;
     }
 
-    saveChanges = () => {
+    login = () => {
         this.props.onLogin(this.state.inputs.email.value,
-            this.state.inputs.password.value)
+                this.state.inputs.password.value)
     }
 
     render() {
@@ -111,16 +117,22 @@ export class Login extends Component {
                 <Header />
                 <h3 style={{textAlign: 'center'}}>Login:</h3>
                 {form}
-                <button onClick={this.saveChanges}>Save Changes</button>
+                <button onClick={this.login}>Login</button>
             </div>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onLogin: (email, password) => dispatch(taskActions.login(email, password))
+        authenticated: state.auth.authenticated
     }
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogin: (email, password) => dispatch(authActions.login(email, password))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Header from '../Components/header';
+import Header from './header';
 import styles from './add-task-page.module.css';
 import Input from '../Components/input';
 import * as taskActions from '../store/actions/task-actions';
@@ -94,15 +94,18 @@ class addTask extends Component {
 
     submitTask = ( event ) => {
         event.preventDefault();
+        //get next highest available ID for the task to being added
+        const tasksLength = this.props.tasks.length
+        let nextId = this.props.tasks[tasksLength-1]['id']
 
         let task = {
             title: this.state.form.title.value,
             description: this.state.form.description.value,
             dueDate: this.state.form.dueDate.value,
-            id: 5 //TODO get next available ID
+            id: ++nextId
         }
-        console.log(task)
-        this.props.onAddTask(task, this.props.userID)
+        this.props.onAddTask(task, this.props.userID, this.props.token)
+        this.props.history.push('/');
     }
 
     render () {
@@ -142,13 +145,15 @@ class addTask extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID
+        tasks: state.tasks.tasks,
+        userID: state.auth.userID,
+        token: state.auth.token
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddTask: (task, userID) => dispatch(taskActions.addTask(task, userID))
+        onAddTask: (task, userID, token) => dispatch(taskActions.addTask(task, userID, token))
     }
 };
 

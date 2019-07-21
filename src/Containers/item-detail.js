@@ -101,7 +101,8 @@ class ItemDetail extends Component {
         const inputValues = {title: this.state.form.title.value,
                             description: this.state.form.description.value,
                             dueDate: this.state.form.dueDate.value}
-        this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues, this.props.userID)
+        this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues, 
+                            this.props.userID, this.props.token)
     }
 
     render() {
@@ -144,7 +145,7 @@ class ItemDetail extends Component {
             <div className={styles.body}>
                 {form}
                 <hr></hr>
-                <button 
+                <button
                     onClick={this.saveChanges}
                     disabled={!this.props.authenticated}>Save Changes</button>
             </div>
@@ -158,14 +159,17 @@ const mapStateToProps = state => {
         chosenTaskID: state.tasks.chosenTaskID,
         initializeTask: state.tasks.initializeTask,
         authenticated: state.auth.authenticated,
-        userID: state.auth.userID
+        userID: state.auth.userID,
+        token: state.auth.token
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onSetInitializeTask: value => dispatch(taskActions.setInitializeTask(value)),
-        onSaveChangesToTask: (taskID, inputValues, userID) => dispatch(taskActions.saveChangesToTask(taskID, inputValues, userID))
+        onSaveChangesToTask: (taskID, inputValues, userID, token) => {
+            dispatch(taskActions.saveChangesToTask(taskID, inputValues, userID, token))
+        }
     }
 };
 

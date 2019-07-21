@@ -34,7 +34,9 @@ class ItemList extends Component {
 
                 {displayTasks}
                 <div className={styles.addButton}>
-                    <button onClick={this.addNewTask}> + </button>
+                    <button 
+                        onClick={this.addNewTask}
+                        disabled={!this.props.authenticated}> + </button>
                 </div>
             </div>
         )
@@ -43,7 +45,8 @@ class ItemList extends Component {
 
 const mapStateToProps = state => {
     return {
-        tasks: state.tasks.tasks
+        tasks: state.tasks.tasks,
+        authenticated: state.auth.authenticated
     }
 };
 

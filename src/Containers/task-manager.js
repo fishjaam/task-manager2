@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import styles from './task-manager.module.css'
-import Header from '../Components/header'
+import Header from './header'
 import ItemList from './item-list'
 import ItemDetail from './item-detail'
 
@@ -19,5 +19,6 @@ class TaskManager extends Component {
     )
   }
 }
+
 
 export default TaskManager;
