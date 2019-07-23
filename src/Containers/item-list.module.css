@@ -4,16 +4,42 @@
 
 .listItem {
     text-align: center;
-    background-color: #eaebd3;
+    background-color: rgb(236, 235, 223);
     width: 100%;
     border: 1px solid rgb(153, 153, 180);
     box-shadow: 1px 1px 3px rgb(2, 1, 22);
     box-sizing: border-box;
     border-radius: 15px;
     margin: 4px 0px;
-    transition: all 0.3s ease-out;
+}
+
+.overdue {
+    text-align: center;
+    background-color: rgb(236, 235, 223);
+    width: 100%;
+    border: 1px solid rgb(153, 153, 180);
+    box-shadow: 1px 1px 3px rgb(2, 1, 22);
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 4px 0px;
+    border-left: 15px solid red;
+    z-index: 10;
+}
+
+.complete {
+    text-align: center;
+    background-color: rgb(236, 235, 223);
+    width: 100%;
+    border: 1px solid rgb(153, 153, 180);
+    box-shadow: 1px 1px 3px rgb(2, 1, 22);
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 4px 0px;
+    border-left: 15px solid green;
+    z-index: 10;
 }
 
 .addButton {
     text-align: center;
+    z-index: 1231;
 }

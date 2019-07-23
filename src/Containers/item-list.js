@@ -18,10 +18,16 @@ class ItemList extends Component {
 
     render() {
         const displayTasks = this.props.tasks.map(task => {
+            let style = styles.listItem
+            let parsedDate = new Date(task.dueDate)
+
+            if(parsedDate.getTime() < new Date().getTime()) {
+                style = styles.overdue
+            }
             return (
                 <div 
                     key={task.id} 
-                    className={styles.listItem}
+                    className={style}
                     onClick={() => this.props.onChangeChosenTask(task.id)}>
                     <Item  
                         taskName={task.title}

@@ -38,8 +38,8 @@ class ItemDetail extends Component {
             dueDate: {
                 elementType: 'input',
                 elementConfig: {
-                    type: 'date'
-                    // placeholder: 
+                    type: 'datetime-local',
+                    placeholder: new Date(2018, 11, 24, 10, 33, 30)
                 },
                 value: '',
                 validation: {
