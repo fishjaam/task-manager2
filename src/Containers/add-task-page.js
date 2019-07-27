@@ -39,7 +39,8 @@ class addTask extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'datetime-local',
-                    placeholder: new Date(2018, 11, 24, 10, 33, 30)
+                    placeholder: ''
+                    // placeholder: '2020-01-01T12:00'
                 },
                 value: '',
                 validation: {
@@ -50,7 +51,7 @@ class addTask extends Component {
             }
         },
         formIsValid: false,
-        loading: false
+        initializing: true
     }
 
     checkValidity(value, rules) {
@@ -116,6 +117,14 @@ class addTask extends Component {
                 config: this.state.form[key]
             });
         }
+        
+        if(this.state.initializing){
+            formElementsArray[0].config.value = this.state.form.title.elementConfig.placeholder
+            formElementsArray[1].config.value = this.state.form.description.elementConfig.placeholder
+            formElementsArray[2].config.value = this.state.form.dueDate.elementConfig.placeholder
+            this.setState({initializing: false})
+        }
+        
         let form = (
             <form onSubmit={this.submitTask}>
                 {formElementsArray.map(formElement => (

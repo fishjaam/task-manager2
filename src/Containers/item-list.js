@@ -8,9 +8,6 @@ import * as taskActions from '../store/actions/task-actions';
 
 
 class ItemList extends Component {
-    state = {
-        tasks: ["first task", "second task", "another"]
-    }
 
     addNewTask = () => {
         this.props.history.push('new-task');

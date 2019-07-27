@@ -14,7 +14,7 @@ const input = ( props ) => {
         case ( 'input' ):
             inputElement = <input
                 className={inputClasses.join(' ')}
-                {...props.elementConfig}
+                {...props.elementConfig}             
                 value={props.value}
                 onChange={props.changed} />;
             break;
@@ -23,7 +23,8 @@ const input = ( props ) => {
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value}
-                onChange={props.changed} />;
+                onChange={props.changed} 
+                rows='7'/>;
             break;
         default:
             inputElement = <input

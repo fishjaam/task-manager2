@@ -39,7 +39,8 @@ class ItemDetail extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'datetime-local',
-                    placeholder: new Date(2018, 11, 24, 10, 33, 30)
+                    placeholder: '2020-01-01T12:00'
+                    // placeholder: new Date(2018, 11, 24, 10, 33, 30)
                 },
                 value: '',
                 validation: {
@@ -125,6 +126,11 @@ class ItemDetail extends Component {
             formElementsArray[2].config.value = task.dueDate
         }
 
+        //don't show date input if no due date exists
+        if(!formElementsArray[2].config.value){
+            formElementsArray.pop();
+        }
+
         let form = (
             <form onSubmit={this.submitTask}>
                 {formElementsArray.map(formElement => (
@@ -145,7 +151,8 @@ class ItemDetail extends Component {
             <div className={styles.body}>
                 {form}
                 <hr></hr>
-                <button
+                
+                <button 
                     onClick={this.saveChanges}
                     disabled={!this.props.authenticated}>Save Changes</button>
             </div>
