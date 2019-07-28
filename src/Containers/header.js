@@ -15,7 +15,7 @@ class Header extends Component {
     
     render() {
         return(
-            <header className={styles.Header}>
+        <header className={styles.Header}>
             <div>
                 <NavLink 
                     className={styles.NavItem}

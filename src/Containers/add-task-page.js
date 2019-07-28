@@ -103,7 +103,8 @@ class addTask extends Component {
             title: this.state.form.title.value,
             description: this.state.form.description.value,
             dueDate: this.state.form.dueDate.value,
-            id: ++nextId
+            id: ++nextId,
+            status: 'ontime'
         }
         this.props.onAddTask(task, this.props.userID, this.props.token)
         this.props.history.push('/');

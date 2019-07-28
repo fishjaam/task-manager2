@@ -14,13 +14,36 @@ class ItemList extends Component {
     }
 
     render() {
-        const displayTasks = this.props.tasks.map(task => {
-            let style = styles.listItem
-            let parsedDate = new Date(task.dueDate)
+        let style = null;
+        let parsedDate = null;
+        let dueDateExists;
 
-            if(parsedDate.getTime() < new Date().getTime()) {
-                style = styles.overdue
+        const displayTasks = this.props.tasks.map(task => {
+            dueDateExists = task.dueDate ? true: false;
+
+            if(dueDateExists){
+                parsedDate = new Date(task.dueDate);
+
+                if(parsedDate.getTime() < new Date().getTime()) {
+                    task.status = 'overdue'
+                }
             }
+
+            switch(task.status) {
+                case 'ontime':
+                    style = styles.ontime;
+                    break;
+                case 'overdue':
+                    style = styles.overdue;
+                    break;
+                case 'complete':
+                    style = styles.complete;
+                    break;
+                default:
+                    style = styles.ontime;
+                    break;
+            }
+
             return (
                 <div 
                     key={task.id} 
@@ -28,7 +51,8 @@ class ItemList extends Component {
                     onClick={() => this.props.onChangeChosenTask(task.id)}>
                     <Item  
                         taskName={task.title}
-                        taskID={task.id}/>
+                        taskID={task.id}
+                        dueDateExists={dueDateExists}/>
                 </div>
             )
         })
@@ -58,4 +82,5 @@ const mapDispatchToProps = dispatch => {
         onChangeChosenTask: (id) => dispatch(taskActions.changeChosenTask(id))
     }
 };
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ItemList));

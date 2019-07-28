@@ -31,6 +31,14 @@ export const saveChangesToTask = (taskID, inputValues, userID, token) => {
     }
 }
 
+export const changeTaskStatus = (status, taskId) => {
+    return {
+        type: 'CHANGE_TASK_STATUS',
+        status: status,
+        taskID: taskId
+    }
+}
+
 export const logout = () => {
     return {
         type: 'LOGOUT'

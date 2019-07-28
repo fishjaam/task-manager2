@@ -1,0 +1,20 @@
+.row {
+    display: table;
+    width: 100%; 
+    border-spacing: 10px; 
+}
+
+.column {
+    display: table-cell;
+    padding: 5px 0;
+    vertical-align: top;
+}
+
+select {
+    width: 18px;
+    background-color: rgb(219, 215, 173);  
+    padding: 7px 0;
+    float: right;
+    cursor: pointer;
+    border: none;
+}
