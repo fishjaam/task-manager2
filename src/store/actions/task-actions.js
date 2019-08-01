@@ -39,6 +39,22 @@ export const changeTaskStatus = (status, taskId) => {
     }
 }
 
+export const deleteTask = (taskId, userID, token) => {
+    return {
+        type: 'DELETE_TASK',
+        taskID: taskId,
+        userID: userID,
+        token: token
+    }
+}
+
+export const addDueDate = (taskId) => {
+    return {
+        type: 'ADD_DUE_DATE',
+        taskID: taskId
+    }
+}
+
 export const logout = () => {
     return {
         type: 'LOGOUT'

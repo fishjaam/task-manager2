@@ -16,23 +16,22 @@ class Item extends Component {
         this.props.onChangeChosenTask(id)
     }
 
-    showOptionsModal = () => {
-
-        console.log('open modal here')
-    }
-
     optionClicked = event => {
         switch(event.target.value) {
             case 'Delete task':
-                console.log('delete task')
+                this.props.onDeleteTask(this.props.chosedTaskId, 
+                                        this.props.userID, 
+                                        this.props.token)
                 break;
+
             case 'Add due date':
-                    console.log('Add a due date')
-                    break;
+                this.props.onAddDueDate(this.props.chosedTaskId)
+                break;
+
             case 'Complete task':
-                    console.log('complete task')
-                    this.props.onChangeTaskStatus('complete', this.props.chosedTaskId)
-                    break;
+                this.props.onChangeTaskStatus('complete', this.props.chosedTaskId)
+                break;
+
             default:
                 break;
         }
@@ -67,13 +66,17 @@ class Item extends Component {
 
 const mapStateToProps = state => {
     return {
-        chosedTaskId: state.tasks.chosenTaskID
+        chosedTaskId: state.tasks.chosenTaskID,
+        userID: state.auth.userID,
+        token: state.auth.token
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onChangeTaskStatus: (status, taskId) => dispatch(taskActions.changeTaskStatus(status, taskId))
+        onChangeTaskStatus: (status, taskId) => dispatch(taskActions.changeTaskStatus(status, taskId)),
+        onDeleteTask: (taskId, userID, token) => dispatch(taskActions.deleteTask(taskId, userID, token)),
+        onAddDueDate: (taskId) => dispatch(taskActions.addDueDate(taskId))
     }
 };
 
