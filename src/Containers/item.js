@@ -7,7 +7,8 @@ import * as taskActions from '../store/actions/task-actions';
 const allModalOptions = [
     'Delete task',
     'Add due date',
-    'Complete task'
+    'Complete task',
+    'Remove due date'
 ]
 
 class Item extends Component {
@@ -32,6 +33,10 @@ class Item extends Component {
                 this.props.onChangeTaskStatus('complete', this.props.chosedTaskId)
                 break;
 
+            case 'Remove due date':
+                this.props.onRemoveDueDate(this.props.chosedTaskId)
+                break;
+
             default:
                 break;
         }
@@ -43,7 +48,9 @@ class Item extends Component {
         for(let option of allModalOptions){
             if (this.props.dueDateExists && option == 'Add due date') {
                 
-            } else if (true) {
+            } else if(!this.props.dueDateExists && option == 'Remove due date') {
+                
+            }else if (true) {
                 modalOptions.push(option)
             }
         }
@@ -76,7 +83,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangeTaskStatus: (status, taskId) => dispatch(taskActions.changeTaskStatus(status, taskId)),
         onDeleteTask: (taskId, userID, token) => dispatch(taskActions.deleteTask(taskId, userID, token)),
-        onAddDueDate: (taskId) => dispatch(taskActions.addDueDate(taskId))
+        onAddDueDate: (taskId) => dispatch(taskActions.addDueDate(taskId)),
+        onRemoveDueDate: (taskId) => dispatch(taskActions.removeDueDate(taskId))
     }
 };
 

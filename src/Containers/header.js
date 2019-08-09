@@ -24,10 +24,17 @@ class Header extends Component {
                 </NavLink>
             </div>
             {this.props.authenticated ?
-                <div onClick={this.logout}>
+                <div>
+                    <NavLink
+                        className={styles.NavItem}
+                        to="settings">
+                        &#9881;
+                    </NavLink>
+                    {' | '}
                     <NavLink 
                         className={styles.NavItem}
-                        to="/">
+                        to="/"
+                        onClick={this.logout}>
                         Logout
                     </NavLink>
                 </div>

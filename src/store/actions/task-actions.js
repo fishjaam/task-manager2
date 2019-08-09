@@ -55,6 +55,13 @@ export const addDueDate = (taskId) => {
     }
 }
 
+export const removeDueDate = (taskId) => {
+    return {
+        type: 'REMOVE_DUE_DATE',
+        taskID: taskId
+    }
+}
+
 export const logout = () => {
     return {
         type: 'LOGOUT'
