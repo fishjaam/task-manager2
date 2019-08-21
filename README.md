@@ -1,3 +1,3 @@
-https://taskmanager.me/
+https://taskmanager.me
 
 Personal task manager / note organizer
