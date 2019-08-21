@@ -61,6 +61,11 @@ const taskReducer = ( state = initialState, action ) => {
             changedDuedateTask.dueDate = '2020-01-01T12:00'
             return {...state, tasks: updateSingleTask(state.tasks, changedDuedateTask)}
 
+        case 'REMOVE_DUE_DATE':
+            let removedDuedateTask = filterTasks(state.tasks, action.taskID)
+            removedDuedateTask.dueDate = ''
+            return {...state, tasks: updateSingleTask(state.tasks, removedDuedateTask)}
+
         case 'CHANGE_TASK_STATUS':
             let changedStatusTask = filterTasks(state.tasks, action.taskID)
             changedStatusTask.status = action.status
