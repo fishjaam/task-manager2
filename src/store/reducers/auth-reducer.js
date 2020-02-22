@@ -2,7 +2,7 @@
 const initialState = {
     token: null,
     userID: null,
-    authenticated: false,
+    authenticated: true, //initialized to true for testing
     errorMessage: null
 }
 

@@ -34,21 +34,21 @@ class ItemDetail extends Component {
                 },
                 valid: false,
                 touched: false
-            },
-            dueDate: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'datetime-local',
-                    placeholder: '2020-01-01T12:00'
-                    // placeholder: new Date(2018, 11, 24, 10, 33, 30)
-                },
-                value: '',
-                validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false
             }
+            // dueDate: {
+            //     elementType: 'input',
+            //     elementConfig: {
+            //         type: 'datetime-local',
+            //         placeholder: '2020-01-01T12:00'
+            //         // placeholder: new Date(2018, 11, 24, 10, 33, 30)
+            //     },
+            //     value: '',
+            //     validation: {
+            //         required: true
+            //     },
+            //     valid: false,
+            //     touched: false
+            // }
         },
         formIsValid: false,
         loading: false
@@ -100,16 +100,20 @@ class ItemDetail extends Component {
 
     saveChanges = () => {
         const inputValues = {title: this.state.form.title.value,
-                            description: this.state.form.description.value,
-                            dueDate: this.state.form.dueDate.value}
+                            description: this.state.form.description.value}
+                            // dueDate: this.state.form.dueDate.value}
         this.props.onSaveChangesToTask(this.props.chosenTaskID, inputValues, 
                             this.props.userID, this.props.token)
+    }
+
+    addNewTask = () => {
+        this.props.history.push('new-task');
     }
 
     render() {
         const tasks = this.props.tasks;
         const taskID = this.props.chosenTaskID;
-        const task = tasks.filter(task => task.id === taskID).reduce(el => el)
+        // const task = tasks.filter(task => task.id === taskID).reduce(el => el)
 
         const formElementsArray = [];
         for (let key in this.state.form) {
@@ -120,16 +124,16 @@ class ItemDetail extends Component {
         }
 
         //recalculate input values to their saved value when initialize is set to true
-        if(this.props.initializeTask) {
-            formElementsArray[0].config.value = task.title
-            formElementsArray[1].config.value = task.description
-            formElementsArray[2].config.value = task.dueDate
-        }
+        // if(this.props.initializeTask) {
+        //     formElementsArray[0].config.value = task.title
+        //     formElementsArray[1].config.value = task.description
+            // formElementsArray[2].config.value = task.dueDate
+        //}
 
         //don't show date input if no due date exists
-        if(!formElementsArray[2].config.value){
-            formElementsArray.pop();
-        }
+        // if(!formElementsArray[2].config.value){
+        //     formElementsArray.pop();
+        // }
 
         let form = (
             <form onSubmit={this.submitTask}>
@@ -149,9 +153,13 @@ class ItemDetail extends Component {
 
         return (
             <div className={styles.body}>
-                {form}
-                <hr></hr>
                 
+                <div className={styles.addButton}>  {/* add task button */}
+                    <button 
+                        onClick={this.addNewTask}
+                        disabled={!this.props.authenticated}> + </button>
+                </div>
+
                 <button 
                     onClick={this.saveChanges}
                     disabled={!this.props.authenticated}>Save Changes</button>

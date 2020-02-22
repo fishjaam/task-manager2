@@ -8,12 +8,12 @@
     display: flex; 
     flex-direction: column;
     flex-basis: 100%;
-    flex: 1;
+    flex: 10;
   }
 
   .column2 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
-    flex: 3;
+    flex: 1;
   }

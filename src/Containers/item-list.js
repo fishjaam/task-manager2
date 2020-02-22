@@ -31,13 +31,15 @@ class ItemList extends Component {
 
             switch(task.status) {
                 case 'ontime':
-                    style = styles.ontime;
+                    style = task.id == this.props.chosenTaskID ? styles.ontimeFocused : styles.ontime;
+                    console.log(task.id + ' -- ' + this.props.chosenTaskID)
                     break;
                 case 'overdue':
-                    style = styles.overdue;
+                    style = task.id == this.props.chosenTaskID ? styles.overdueFocused : styles.overdue;
+                    console.log(task.id + ' -- ' + this.props.chosenTaskID)
                     break;
                 case 'complete':
-                    style = styles.complete;
+                    style = task.id == this.props.chosenTaskID ? styles.completeFocused : styles.complete;
                     break;
                 default:
                     style = styles.ontime;
@@ -45,9 +47,10 @@ class ItemList extends Component {
             }
 
             return (
+
                 <div 
-                    key={task.id} 
-                    className={style}
+                    key={task.id}
+                    className = {style}
                     onClick={() => this.props.onChangeChosenTask(task.id)}>
                     <Item  
                         taskName={task.title}
@@ -58,13 +61,7 @@ class ItemList extends Component {
         })
         return (
             <div className={styles.body}>
-
                 {displayTasks}
-                <div className={styles.addButton}>
-                    <button 
-                        onClick={this.addNewTask}
-                        disabled={!this.props.authenticated}> + </button>
-                </div>
             </div>
         )
     }
@@ -73,7 +70,8 @@ class ItemList extends Component {
 const mapStateToProps = state => {
     return {
         tasks: state.tasks.tasks,
-        authenticated: state.auth.authenticated
+        authenticated: state.auth.authenticated,
+        chosenTaskID: state.tasks.chosenTaskID
     }
 };
 

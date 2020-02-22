@@ -1,3 +1,8 @@
 .body {
     margin: 60px 14px;
 }
+
+.addButton {
+    text-align: center;
+    z-index: 1231;
+}
