@@ -2,7 +2,7 @@
 const initialState = {
     token: null,
     userID: null,
-    authenticated: false,
+    authenticated: true,
     errorMessage: null
 }
 
@@ -27,9 +27,9 @@ const taskReducer = ( state = initialState, action ) => {
             return {...state, errorMessage: action.errorMessage}
         case 'LOGOUT':
             return {...state, 
-                    token: null,
-                    userID: null, 
-                    authenticated: false}
+                token: null,
+                userID: null, 
+                authenticated: false}
         default:
             return state;
     }

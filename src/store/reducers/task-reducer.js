@@ -12,13 +12,14 @@ const initialState = {
         }
     ],
     chosenTaskID: 1,
+    showCompleted: true,
     initializeTask: true
 }
 
 //store tasks on firebase
 const postTasks = (tasks, userID, token) => {
     const authToken = '?auth=' + token
-    const url = `firebaseURL/tasks/${userID}.json` + authToken
+    const url =  `firebaseURL/tasks/${userID}.json` + authToken
     axios.put(url, tasks)
         .then(response => console.log(response))
         .catch(err => console.log(err))
@@ -105,6 +106,11 @@ const taskReducer = ( state = initialState, action ) => {
 
         case 'LOGOUT':
             return initialState
+        case 'TOGGLE_TASK_DISPLAY':
+            let toggle = state.showCompleted
+            return {...state,
+                showCompleted: !state.showCompleted
+            }
 
         default:
             return state;

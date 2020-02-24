@@ -17,6 +17,7 @@ class ItemList extends Component {
         let style = null;
         let parsedDate = null;
         let dueDateExists;
+        let toggleButtonText = this.props.showCompleted ? 'Hide completed' : 'Show completed'
 
         const displayTasks = this.props.tasks.map(task => {
             dueDateExists = task.dueDate ? true: false;
@@ -44,17 +45,19 @@ class ItemList extends Component {
                     break;
             }
 
-            return (
-                <div 
-                    key={task.id} 
-                    className={style}
-                    onClick={() => this.props.onChangeChosenTask(task.id)}>
-                    <Item  
-                        taskName={task.title}
-                        taskID={task.id}
-                        dueDateExists={dueDateExists}/>
-                </div>
-            )
+            if(task.status != 'complete' || this.props.showCompleted){ //determine if we want to display completed tasks
+                return (
+                    <div 
+                        key={task.id} 
+                        className={style}
+                        onClick={() => this.props.onChangeChosenTask(task.id)}>
+                        <Item  
+                            taskName={task.title}
+                            taskID={task.id}
+                            dueDateExists={dueDateExists}/>
+                    </div>
+                )
+            }
         })
         return (
             <div className={styles.body}>
@@ -63,7 +66,12 @@ class ItemList extends Component {
                 <div className={styles.addButton}>
                     <button 
                         onClick={this.addNewTask}
-                        disabled={!this.props.authenticated}> + </button>
+                        disabled={!this.props.authenticated}> + 
+                    </button>
+                    <button style={{float: "left"}}
+                        onClick={() => this.props.onToggleTaskDisplay()}>
+                        {toggleButtonText}
+                    </button>
                 </div>
             </div>
         )
@@ -73,13 +81,15 @@ class ItemList extends Component {
 const mapStateToProps = state => {
     return {
         tasks: state.tasks.tasks,
-        authenticated: state.auth.authenticated
+        authenticated: state.auth.authenticated,
+        showCompleted: state.tasks.showCompleted
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onChangeChosenTask: (id) => dispatch(taskActions.changeChosenTask(id))
+        onChangeChosenTask: (id) => dispatch(taskActions.changeChosenTask(id)),
+        onToggleTaskDisplay: () => dispatch(taskActions.toggleTaskDisplay())
     }
 };
 

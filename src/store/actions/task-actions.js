@@ -68,3 +68,9 @@ export const logout = () => {
     }
 }
 
+export const toggleTaskDisplay = () => {
+    return {
+        type: 'TOGGLE_TASK_DISPLAY'
+    }
+}
+
