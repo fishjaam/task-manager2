@@ -7,7 +7,7 @@ const initialState = {
             id: 1,
             title: 'Sample Task',
             description: 'edit the description',
-            dueDate: '2020-01-01T12:00',
+            dueDate: '9999-01-01T12:00',
             status: 'ontime' //ontime, overdue, or complete
         }
     ],
