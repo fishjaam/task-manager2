@@ -18,6 +18,7 @@ class ItemList extends Component {
         let parsedDate = null;
         let dueDateExists;
         let toggleButtonText = this.props.showCompleted ? 'Hide completed' : 'Show completed'
+        let showToggleButton = false; 
 
         const displayTasks = this.props.tasks.map(task => {
             dueDateExists = task.dueDate ? true: false;
@@ -39,6 +40,7 @@ class ItemList extends Component {
                     break;
                 case 'complete':
                     style = styles.complete;
+                    showToggleButton = true;
                     break;
                 default:
                     style = styles.ontime;
@@ -59,6 +61,12 @@ class ItemList extends Component {
                 )
             }
         })
+
+        //only show button if a completed task exists
+        let toggleButton = showToggleButton ? <button style={{float: "left"}}
+                                onClick={() => this.props.onToggleTaskDisplay()}>
+                                {toggleButtonText}
+                            </button> : null
         return (
             <div className={styles.body}>
 
@@ -66,12 +74,9 @@ class ItemList extends Component {
                 <div className={styles.addButton}>
                     <button 
                         onClick={this.addNewTask}
-                        disabled={!this.props.authenticated}> + 
+                        disabled={!this.props.authenticated && !this.props.firstPageLoad}> + 
                     </button>
-                    <button style={{float: "left"}}
-                        onClick={() => this.props.onToggleTaskDisplay()}>
-                        {toggleButtonText}
-                    </button>
+                    {toggleButton}
                 </div>
             </div>
         )
@@ -82,6 +87,7 @@ const mapStateToProps = state => {
     return {
         tasks: state.tasks.tasks,
         authenticated: state.auth.authenticated,
+        firstPageLoad: state.auth.firstPageLoad,
         showCompleted: state.tasks.showCompleted
     }
 };

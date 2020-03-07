@@ -2,7 +2,8 @@
 const initialState = {
     token: null,
     userID: null,
-    authenticated: true,
+    authenticated: false,
+    firstPageLoad: true,
     errorMessage: null
 }
 
