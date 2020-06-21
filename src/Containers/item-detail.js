@@ -70,7 +70,6 @@ class ItemDetail extends Component {
         let formIsValid = true;
         for (let inputIdentifier in updatedForm) {
             formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
-
         }
         this.setState({form: updatedForm, formIsValid: formIsValid});
 
@@ -146,7 +145,7 @@ class ItemDetail extends Component {
                 ))}
             </form>
         );
-
+        // console.log(form)
         return (
             <div className={styles.body}>
                 {form}
