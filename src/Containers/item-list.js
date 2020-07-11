@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom';
 
 import styles from './item-list.module.css'
 import Item from './item';
-import Input from '../Components/input';
 import * as taskActions from '../store/actions/task-actions';
 
 
@@ -28,6 +27,8 @@ class ItemList extends Component {
         let parsedDate = null;
         let dueDateExists;
         let toggleButtonText = this.props.showCompleted ? 'Hide completed' : 'Show completed'
+        let dispayRangeText = this.props.futureDisplayRange == 1 ? 'Show due today' : 
+                              'Show due in ' + this.props.futureDisplayRange + ' days'
         let showToggleButton = false; 
 
         const displayTasks = this.props.tasks.map(task => {
@@ -41,10 +42,14 @@ class ItemList extends Component {
                     task.status = 'overdue'
                 }
 
-                if(this.state.ShowTasksDueToday) { //task will not be visible if due date is too far in future
-                    let taskDayDue = parsedDate.getDate()
-                    let dayValue = new Date().getDate()
-                    withinDisplayPeriod = taskDayDue <= dayValue
+                if(this.state.ShowTasksDueToday) {
+                    //to be within visible range, due date must be greater than current date and less that specified future range
+                    let endOfRange = new Date()
+                    endOfRange.setDate(endOfRange.getDate() + 1)
+                    endOfRange.setHours(0,0,0,0)
+                    endOfRange.setMinutes(0,0,0,0)
+
+                    withinDisplayPeriod = (parsedDate >= new Date()) && (parsedDate <= endOfRange)
                 }
             }
 
@@ -96,7 +101,7 @@ class ItemList extends Component {
                                         checked={this.state.ShowTasksDueToday}
                                         onClick={() => this.toggleDisplayRange(this.state.ShowTasksDueToday)}
                                     />
-                                    Show due today
+                                    {dispayRangeText}
                                 </div>
         
         return ( //TODO button to only show tasks due today
@@ -120,7 +125,8 @@ const mapStateToProps = state => {
         tasks: state.tasks.tasks,
         authenticated: state.auth.authenticated,
         firstPageLoad: state.auth.firstPageLoad,
-        showCompleted: state.tasks.showCompleted
+        showCompleted: state.tasks.showCompleted,
+        futureDisplayRange: state.tasks.futureDisplayRange
     }
 };
 

@@ -74,3 +74,9 @@ export const toggleTaskDisplay = () => {
     }
 }
 
+export const updateFutureDisplayRange = value => {
+    return {
+        type: 'UPDATE_FUTURE_DISPLAY_RANGE',
+        value: value
+    }
+}

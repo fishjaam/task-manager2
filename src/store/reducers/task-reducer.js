@@ -13,7 +13,8 @@ const initialState = {
     ],
     chosenTaskID: 1,
     showCompleted: true,
-    initializeTask: true
+    initializeTask: true,
+    futureDisplayRange: 1
 }
 
 //store tasks on firebase
@@ -106,11 +107,14 @@ const taskReducer = ( state = initialState, action ) => {
 
         case 'LOGOUT':
             return initialState
+
         case 'TOGGLE_TASK_DISPLAY':
-            let toggle = state.showCompleted
             return {...state,
                 showCompleted: !state.showCompleted
             }
+
+        case 'UPDATE_FUTURE_DISPLAY_RANGE':
+            return {...state, futureDisplayRange: action.value}
 
         default:
             return state;
